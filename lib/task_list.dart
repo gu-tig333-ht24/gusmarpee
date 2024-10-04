@@ -19,7 +19,7 @@ class TaskList extends StatelessWidget {
         actions: [
           PopupMenuButton<String>(
             onSelected: (String result) {
-              Provider.of<TaskModel>(context, listen: false).setFilter(result); // Set the filter in TaskModel
+              Provider.of<TaskModel>(context, listen: false).setFilter(result); 
             },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               const PopupMenuItem<String>(

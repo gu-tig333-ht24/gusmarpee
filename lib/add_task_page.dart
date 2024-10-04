@@ -14,7 +14,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   @override
   void dispose() {
-    // Dispose of the controller when the widget is disposed
     _controller.dispose();
     super.dispose();
   }

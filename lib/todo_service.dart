@@ -3,9 +3,9 @@ import 'package:http/http.dart' as http;
 
 class TodoService {
   static const String apiKey = 'c53d8abd-ce2d-4818-852d-79a1155b0db6';
-  static const String baseUrl = 'https://todoapp-api.apps.k8s.gu.se'; // Replace with actual base URL
+  static const String baseUrl = 'https://todoapp-api.apps.k8s.gu.se'; 
 
-  // Get the list of todos
+
   Future<List<dynamic>> fetchTodos() async {
     final response = await http.get(Uri.parse('$baseUrl/todos?key=$apiKey'));
 
@@ -16,10 +16,10 @@ class TodoService {
     }
   }
 
-  // Add a new todo
+
   Future<List<dynamic>> addTodo(String title) async {
   final response = await http.post(
-    Uri.parse('$baseUrl/todos?key=$apiKey'), // Fix the URL here
+    Uri.parse('$baseUrl/todos?key=$apiKey'), 
     headers: <String, String>{
       'Content-Type': 'application/json',
     },
@@ -37,10 +37,10 @@ class TodoService {
 }
 
 
-  // Update an existing todo
+
   Future<void> updateTodo(String id, String title, bool done) async {
   final response = await http.put(
-    Uri.parse('$baseUrl/todos/$id?key=$apiKey'), // Add /todos
+    Uri.parse('$baseUrl/todos/$id?key=$apiKey'), 
     headers: <String, String>{
       'Content-Type': 'application/json',
     },
@@ -56,7 +56,7 @@ class TodoService {
 }
 
 Future<void> deleteTodo(String id) async {
-  final response = await http.delete(Uri.parse('$baseUrl/todos/$id?key=$apiKey')); // Add /todos
+  final response = await http.delete(Uri.parse('$baseUrl/todos/$id?key=$apiKey')); // 
 
   if (response.statusCode != 200) {
     throw Exception('Failed to delete todo');
