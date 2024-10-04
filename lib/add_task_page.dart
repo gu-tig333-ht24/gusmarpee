@@ -2,13 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'task_model.dart';
 
-class AddTaskPage extends StatelessWidget {
+class AddTaskPage extends StatefulWidget {
   const AddTaskPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController controller = TextEditingController();
+  State<AddTaskPage> createState() => _AddTaskPageState();
+}
 
+class _AddTaskPageState extends State<AddTaskPage> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    // Dispose of the controller when the widget is disposed
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add New Task'),
@@ -18,7 +30,7 @@ class AddTaskPage extends StatelessWidget {
         child: Column(
           children: [
             TextField(
-              controller: controller,
+              controller: _controller,
               decoration: const InputDecoration(
                 labelText: 'What are you going to do?',
               ),
@@ -26,8 +38,9 @@ class AddTaskPage extends StatelessWidget {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                final taskName = controller.text;
+                final taskName = _controller.text;
                 if (taskName.isNotEmpty) {
+                  // Add task using the Provider and navigate back
                   Provider.of<TaskModel>(context, listen: false).addTask(taskName);
                   Navigator.pop(context);
                 }

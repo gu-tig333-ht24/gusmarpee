@@ -32,16 +32,16 @@ class ToDoItem extends StatelessWidget {
       },
       leading: CircleAvatar(
         backgroundColor: _getColor(context),
-        child: Text(task.name[0]),
+        child: Text(task.title[0]), // Replace 'name' with 'title'
       ),
       title: Text(
-        task.name,
+        task.title, // Replace 'name' with 'title'
         style: _getTextStyle(context),
       ),
       trailing: IconButton(
         icon: const Icon(Icons.clear_outlined),
         onPressed: () {
-          Provider.of<TaskModel>(context, listen: false).deleteTask(task);
+          Provider.of<TaskModel>(context, listen: false).deleteTask(task.id); // Use task.id
         },
       ),
     );

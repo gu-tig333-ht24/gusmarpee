@@ -9,6 +9,9 @@ class TaskList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Fetch todos when the widget is built
+    Provider.of<TaskModel>(context, listen: false).fetchTodos();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('TIG 333 To Do'),
@@ -16,7 +19,7 @@ class TaskList extends StatelessWidget {
         actions: [
           PopupMenuButton<String>(
             onSelected: (String result) {
-              Provider.of<TaskModel>(context, listen: false).setFilter(result);
+              Provider.of<TaskModel>(context, listen: false).setFilter(result); // Set the filter in TaskModel
             },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               const PopupMenuItem<String>(
@@ -37,37 +40,40 @@ class TaskList extends StatelessWidget {
       ),
       body: Consumer<TaskModel>(
         builder: (context, taskModel, child) {
+          if (taskModel.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (taskModel.tasks.isEmpty) {
+            return const Center(child: Text('No tasks found.'));
+          }
+
           return ListView.separated(
             padding: const EdgeInsets.symmetric(vertical: 8),
-            itemCount: taskModel.filteredTasks.length,
+            itemCount: taskModel.tasks.length,
             itemBuilder: (context, index) {
-              final task = taskModel.filteredTasks[index];
+              final task = taskModel.tasks[index];
               return ToDoItem(
                 task: task,
-                isDone: taskModel.completedTasks.contains(task),
+                isDone: task.done,
               );
             },
             separatorBuilder: (context, index) {
               return const Divider();
             },
           );
-          
         },
       ),
+
       floatingActionButton: FloatingActionButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const AddTaskPage(),
-          ),
-        );
-      },
-      backgroundColor: Theme.of(context).primaryColor,
-      child: const Icon(Icons.add),  
-    ),
-    floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-  
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddTaskPage(),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
