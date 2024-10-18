@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class TodoService {
-  static const String apiKey = 'c53d8abd-ce2d-4818-852d-79a1155b0db6';
+  static const String apiKey = '93ee83a7-06d1-4683-9f12-ea0ef8ce7343';
   static const String baseUrl = 'https://todoapp-api.apps.k8s.gu.se'; 
 
 
   Future<List<dynamic>> fetchTodos() async {
-    final response = await http.get(Uri.parse('$baseUrl/todos?key=$apiKey'));
-
+    final response = await http.get(
+      Uri.parse('$baseUrl/todos?key=$apiKey'));
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
@@ -28,7 +28,6 @@ class TodoService {
       'done': false,
     }),
   );
-
   if (response.statusCode == 200) {
     return jsonDecode(response.body);
   } else {
@@ -49,18 +48,18 @@ class TodoService {
       'done': done,
     }),
   );
-
   if (response.statusCode != 200) {
     throw Exception('Failed to update todo');
   }
 }
 
 Future<void> deleteTodo(String id) async {
-  final response = await http.delete(Uri.parse('$baseUrl/todos/$id?key=$apiKey')); // 
-
+  final response = await http.delete(
+    Uri.parse('$baseUrl/todos/$id?key=$apiKey')); // 
   if (response.statusCode != 200) {
     throw Exception('Failed to delete todo');
   }
 }
+
 
 }

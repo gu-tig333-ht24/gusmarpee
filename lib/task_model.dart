@@ -23,7 +23,6 @@ class Task {
     );
   }
 
-
   Task copyWith({String? title, bool? done, bool? deleted}) {
     return Task(
       id: id,
@@ -40,7 +39,6 @@ class TaskModel extends ChangeNotifier {
   String _filter = 'All'; 
   final TodoService _todoService = TodoService();
 
-
   List<Task> get tasks {
     if (_filter == 'Done') {
       return _tasks.where((task) => task.done && !task.deleted).toList();
@@ -51,7 +49,6 @@ class TaskModel extends ChangeNotifier {
   }
 
   bool get isLoading => _isLoading;
-
 
   Future<void> fetchTodos() async {
     try {
@@ -67,7 +64,6 @@ class TaskModel extends ChangeNotifier {
       notifyListeners();
     }
   }
-
 
   void setFilter(String filter) {
     _filter = filter;
@@ -89,12 +85,10 @@ class TaskModel extends ChangeNotifier {
     }
   }
 
-
   Future<void> toggleTaskStatus(Task task) async {
     final updatedTask = task.copyWith(done: !task.done);
     await updateTask(updatedTask);
   }
-
 
   Future<void> updateTask(Task task) async {
     try {
@@ -104,15 +98,12 @@ class TaskModel extends ChangeNotifier {
       print('Error updating task: $e');
     }
   }
-
  
   Future<void> deleteTask(String id) async {
     try {
-      final taskIndex = _tasks.indexWhere((task) => task.id == id);
-      if (taskIndex != -1) {
-        _tasks[taskIndex] = _tasks[taskIndex].copyWith(deleted: true); 
-        notifyListeners();
-      }
+      await _todoService.deleteTodo(id); 
+      _tasks.removeWhere((task) => task.id == id); 
+      notifyListeners(); 
     } catch (e) {
       print('Error deleting task: $e');
     }
